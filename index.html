@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toppers' Vidya Mandir | Ultra Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-screen" class="login-overlay">
+        <div class="login-box">
+            <h2 class="brand-text">TOPPERS'</h2>
+            <p>VIDYA MANDIR</p>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Admin ID">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <button onclick="checkLogin()" class="btn-primary">Access Dashboard</button>
+        </div>
+    </div>
+
+    <div id="app-container" style="display: none;" class="layout">
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <h2>TVM <i class="fas fa-graduation-cap"></i></h2>
+                <p>Yes We Can</p>
+            </div>
+            <ul class="nav-links">
+                <li onclick="showSection('dashboard')" class="active"><i class="fas fa-chart-pie"></i> Overview</li>
+                <li onclick="showSection('add-student')"><i class="fas fa-user-plus"></i> New Admission</li>
+                <li onclick="showSection('fees')"><i class="fas fa-file-invoice-dollar"></i> Fee & Records</li>
+                <li onclick="showSection('attendance')"><i class="fas fa-calendar-alt"></i> Attendance</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" onkeyup="searchStudent()" placeholder="Search records...">
+                </div>
+                <div class="header-actions">
+                    <button class="btn-icon" onclick="toggleTheme()" title="Dark Mode"><i class="fas fa-moon"></i></button>
+                    <button class="btn-success" onclick="exportToCSV()"><i class="fas fa-download"></i> Backup Data</button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                
+                <section id="dashboard" class="active-section">
+                    <div class="stats-grid">
+                        <div class="stat-card" style="border-left: 5px solid var(--primary);">
+                            <i class="fas fa-users" style="color: var(--primary);"></i>
+                            <div><h3>Total Students</h3><p id="stat-total-students" class="stat-number">0</p></div>
+                        </div>
+                        <div class="stat-card" style="border-left: 5px solid var(--success);">
+                            <i class="fas fa-rupee-sign" style="color: var(--success);"></i>
+                            <div><h3>Total Revenue</h3><p id="stat-total-revenue" class="stat-number">₹0</p></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="add-student">
+                    <div class="form-card">
+                        <h3><i class="fas fa-address-card"></i> Student Registration Form</h3>
+                        <form id="studentForm">
+                            <div class="form-grid">
+                                <input type="text" id="name" placeholder="Full Name" required>
+                                <input type="date" id="dob" required>
+                                <input type="text" id="phone" placeholder="Mobile Number" required>
+                                <input type="number" id="libFee" placeholder="Library Fee (₹)">
+                                <input type="number" id="maintFee" placeholder="Maintenance Fee (₹)">
+                                <input type="number" id="courseFee" placeholder="Course Fee (₹)">
+                            </div>
+                            <button type="submit" class="btn-primary mt-3"><i class="fas fa-cloud-upload-alt"></i> Save to Database</button>
+                        </form>
+                    </div>
+                </section>
+
+                <section id="fees">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name & Info</th>
+                                    <th>Total Fee</th>
+                                    <th>Actions (ID & Print)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feeTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="attendance">
+                    <div class="attendance-header">
+                        <h3>Today: <span id="currentDate"></span></h3>
+                        <span class="badge success">Present: <span id="presentCount">0</span></span>
+                    </div>
+                    <div class="table-container mt-3">
+                        <table>
+                            <thead><tr><th>Student Name</th><th>Mark Present</th></tr></thead>
+                            <tbody id="attendanceList"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="idModal" class="modal">
+        <div class="modal-content id-card-box">
+            <div class="id-header">
+                <h2>Toppers' Vidya Mandir</h2>
+                <p>"Yes We Can"</p>
+            </div>
+            <div class="id-body">
+                <i class="fas fa-user-circle id-photo"></i>
+                <h3 id="idName" style="margin: 10px 0; color: var(--dark);"></h3>
+                <p><strong>DOB:</strong> <span id="idDob"></span></p>
+                <p><strong>Phone:</strong> <span id="idPhone"></span></p>
+                <p><strong>Reg ID:</strong> <span id="idNo"></span></p>
+            </div>
+            <div class="id-footer">Authorized Signature</div>
+            <button class="btn-success mt-3" onclick="window.print()" style="width: 100%;">Print ID Card</button>
+            <button class="btn-danger mt-3" onclick="document.getElementById('idModal').style.display='none'" style="width: 100%;">Close</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Message</div>
+    <script src="script.js"></script>
+</body>
+</html>
